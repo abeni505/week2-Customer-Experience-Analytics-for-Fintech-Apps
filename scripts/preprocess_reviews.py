@@ -29,7 +29,6 @@ df = df.drop_duplicates(subset=["review", "bank"])
 df = df[["review", "rating", "date", "bank", "source"]]
 
 # Save cleaned file to the directory 
-os.makedirs("cleaned_data", exist_ok=True)
-df.to_csv("cleaned_data/cleaned_reviews.csv", index=False)
 
+df.to_csv("data/cleaned_reviews.csv", index=False)
 print(f"✅ Preprocessing complete. {len(df)} reviews saved to cleaned_data/cleaned_reviews.csv")
