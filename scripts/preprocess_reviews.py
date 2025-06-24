@@ -3,7 +3,7 @@ from datetime import datetime
 import os
 
 # Load raw scraped data
-df = pd.read_csv("data/all_banks_reviews.csv")
+df = pd.read_csv("data/raw/all_banks_reviews.csv")
 
 # Rename columns for consistency
 df = df.rename(columns={
@@ -30,5 +30,7 @@ df = df[["review", "rating", "date", "bank", "source"]]
 
 # Save cleaned file to the directory 
 
-df.to_csv("data/cleaned_reviews.csv", index=False)
-print(f"✅ Preprocessing complete. {len(df)} reviews saved to cleaned_data/cleaned_reviews.csv")
+output_path = "data/processed/cleaned_reviews.csv"
+df.to_csv(output_path, index=False)
+print(f"✅ Preprocessing complete. {len(df)} reviews saved to {output_path}")
+
