@@ -1,4 +1,36 @@
+# Python
+############################
+# Byte-compiled / optimized / DLL files
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+
+# Virtual Environment
+############################
+week2-venv/
+
+# macOS
+############################
 .DS_Store
-data/*.csv
+
+# Data Files
+############################
+# Ignore CSV files in any subdirectory of the data folder
+data/**/*.csv
+
+# Generated Output
+############################
+# Ignore generated plots and reports
+reports/visuals/
+*.pdf
+
+# VS Code
+############################
+# Ignore editor-specific settings
+.vscode/
+
+# Secrets
+############################
+# Ignore environment files containing secrets
+.env
