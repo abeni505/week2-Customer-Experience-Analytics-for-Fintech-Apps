@@ -1,7 +1,7 @@
 import pandas as pd
 from textblob import TextBlob
 
-df = pd.read_csv("data/cleaned_reviews.csv")
+df = pd.read_csv("data/processed/cleaned_reviews.csv")
 
 def analyze_sentiment(text):
     polarity = TextBlob(text).sentiment.polarity
@@ -16,4 +16,4 @@ df[["sentiment_label", "sentiment_score"]] = df["review"].apply(
     lambda x: pd.Series(analyze_sentiment(str(x)))
 )
 
-df.to_csv("data/sentiment_reviews.csv", index=False)
+df.to_csv("data/processed/sentiment_reviews.csv", index=False)

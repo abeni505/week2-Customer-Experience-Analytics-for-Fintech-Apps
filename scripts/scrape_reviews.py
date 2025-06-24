@@ -35,5 +35,5 @@ for bank_name, app_id in apps.items():
     all_reviews = pd.concat([all_reviews, df], ignore_index=True)
 
 # Save combined file
-all_reviews.to_csv("data/all_banks_reviews.csv", index=False)
+all_reviews.to_csv("data/raw/all_banks_reviews.csv", index=False)
 print("Scraping complete. Files saved in /data.")

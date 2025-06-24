@@ -1,36 +1,46 @@
+# thematic_analysis.py (Corrected)
+
 import pandas as pd
-from sklearn.feature_extraction.text import TfidfVectorizer
-import spacy
+import os
 
-print("🔍 Loading data...")
-df = pd.read_csv("data/sentiment_reviews.csv")
-print("✅ Data shape:", df.shape)
+print("🔍 Loading data with sentiment...")
+input_path = "data/processed/sentiment_reviews.csv"
+try:
+    df = pd.read_csv(input_path)
+    print("✅ Data shape:", df.shape)
+except FileNotFoundError:
+    print(f"❌ Error: File not found at {input_tath}. Please run sentiment_analysis.py first.")
+    exit()
 
-nlp = spacy.load("en_core_web_sm")
 
-print("🧹 Cleaning reviews...")
-def clean_text(text):
-    doc = nlp(str(text).lower())
-    tokens = [
-        token.lemma_ for token in doc
-        if not token.is_stop and token.is_alpha and len(token) > 2
-    ]
-    return " ".join(tokens)
+print("⏳ Performing thematic analysis...")
 
-df['cleaned_review'] = df['review'].apply(clean_text)
+# Define keywords for each theme
+theme_keywords = {
+    'UI & Experience': ['ui', 'interface', 'design', 'look', 'easy to use', 'user friendly', 'simple', 'clean'],
+    'Performance': ['slow', 'fast', 'crash', 'bug', 'lag', 'performance', 'loading', 'stuck', 'error'],
+    'Login & Security': ['login', 'password', 'fingerprint', 'otp', 'security', 'authentication', 'sign in', 'secure'],
+    'Transactions': ['transfer', 'payment', 'transaction', 'send money', 'receive', 'fee', 'charge'],
+    'Customer Support': ['support', 'help', 'customer service', 'call center', 'response'],
+    'Feature Request': ['feature', 'add', 'implement', 'suggestion', 'dark mode', 'wish', 'hope']
+}
 
-print("🔑 Extracting keywords by bank...")
-themes = {}
-for bank in df['bank'].unique():
-    bank_text = df[df['bank'] == bank]['cleaned_review']
-    vectorizer = TfidfVectorizer(max_df=0.9, min_df=5, max_features=50)
-    X = vectorizer.fit_transform(bank_text)
-    bank_keywords = vectorizer.get_feature_names_out().tolist()
-    themes[bank] = bank_keywords[:10]
-    print(f"📌 {bank}: {bank_keywords[:10]}")
+def identify_theme(review):
+    """Identifies one or more themes based on keywords found in the review."""
+    review_lower = str(review).lower()
+    found_themes = []
+    for theme, keywords in theme_keywords.items():
+        if any(keyword in review_lower for keyword in keywords):
+            found_themes.append(theme)
+    # If no specific theme is found, categorize as 'General Feedback'
+    return ', '.join(found_themes) if found_themes else 'General Feedback'
 
-# Save
-theme_df = pd.DataFrame.from_dict(themes, orient='index').transpose()
-theme_df.to_csv("data/bank_themes_keywords.csv", index=False)
+# This creates the crucial 'identified_theme(s)' column
+df['identified_theme(s)'] = df['review'].apply(identify_theme)
+print("✅ Thematic analysis complete.")
 
-print("✅ Thematic keywords extracted and saved.")
+# Save the final, fully analyzed file
+output_path = "data/processed/final_analyzed_reviews.csv"
+df.to_csv(output_path, index=False)
+
+print(f"🎉 Final analyzed data saved to {output_path}")

@@ -15,7 +15,7 @@ DB_PORT = "5432"
 
 SCHEMA_FILE = 'database/schema.sql'
 # --- IMPORTANT: UPDATE THIS PATH ---
-CLEANED_CSV_PATH = 'data/processed/cleaned_reviews.csv'
+CLEANED_CSV_PATH = 'data/processed/final_analyzed_reviews.csv'
 
 def setup_database():
     """Connects to PostgreSQL, runs the schema, and populates the tables."""
