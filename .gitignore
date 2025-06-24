@@ -19,11 +19,7 @@ week2-venv/
 # Ignore CSV files in any subdirectory of the data folder
 data/**/*.csv
 
-# Generated Output
-############################
-# Ignore generated plots and reports
-reports/visuals/
-*.pdf
+
 
 # VS Code
 ############################
